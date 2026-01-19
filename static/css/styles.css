@@ -618,3 +618,82 @@ body {
 .btn-submit:hover {
     background-color: #5649c0;
 }
+
+/* Delete Account Styles */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.delete-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-gray);
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.delete-icon:hover {
+    background-color: #ffe0e0;
+    color: var(--expense-color);
+}
+
+/* Delete Modal Specifics */
+.warning-box {
+    background-color: #fff0f0;
+    border: 1px solid #ffcccc;
+    color: #d63031;
+    padding: 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 1.5rem 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.warning-box i {
+    font-size: 1.1rem;
+    margin-top: 2px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.btn-cancel,
+.btn-delete {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.btn-cancel {
+    background-color: #f1f2f6;
+    color: var(--text-dark);
+}
+
+.btn-cancel:hover {
+    background-color: #dfe6e9;
+}
+
+.btn-delete {
+    background-color: var(--expense-color);
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #b71c1c;
+}

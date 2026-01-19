@@ -221,6 +221,27 @@
         </div>
     </div>
 
+    <!-- Delete Account Modal -->
+    <div id="delete-account-modal" class="modal">
+        <div class="modal-content delete-modal">
+            <div class="modal-header">
+                <h2>Are You Sure?</h2>
+                <span class="close-modal" id="close-delete-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Want To Delete Your Account?</p>
+                <div class="warning-box">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span>Deleting An Account Would Delete All It's Related Transactions Permanantly</span>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-cancel" id="cancel-delete-btn">Cancel</button>
+                    <button class="btn-delete" id="confirm-delete-btn">Yes, Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="/static/js/script.js"></script>
 </body>
 

@@ -105,6 +105,20 @@ def add_account():
 
     return jsonify({"status": "success", "account": account_obj})
 
+@app.route('/api/delete_account', methods=['POST'])
+def delete_account():
+    account_id = request.json.get('id')
+    data = load_data()
+    
+    # Remove Account
+    data['accounts'] = [acc for acc in data['accounts'] if acc['id'] != account_id]
+    
+    # Remove associated transactions
+    data['transactions'] = [t for t in data['transactions'] if t['account_id'] != account_id]
+    
+    save_data(data)
+    return jsonify({"status": "success"})
+
 @app.route('/api/update_budget', methods=['POST'])
 def update_budget():
     req_data = request.json

@@ -410,7 +410,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="account-card">
                     <div class="account-header">
                         <span class="account-name">${acc.name}</span>
-                        <div class="toggle-switch ${activeClass}" onclick="toggleAccount('${acc.id}')"></div>
+                        <div class="header-actions">
+                            <div class="toggle-switch ${activeClass}" onclick="toggleAccount('${acc.id}')"></div>
+                            <div class="delete-icon" onclick="confirmDeleteAccount('${acc.id}', event)"><i class="fa-solid fa-xmark"></i></div>
+                        </div>
                     </div>
                     <div>
                         <div class="account-balance">${formatCurrency(acc.balance)}</div>
@@ -426,7 +429,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Global Exposure for onClick handlers
     // Global Exposure for onClick handlers
     window.toggleAccount = async (id) => {
         // Optimistic UI Update
@@ -451,9 +453,47 @@ document.addEventListener('DOMContentLoaded', () => {
             // No need to fetchData() again if successful, local state is already correct.
         } catch (err) {
             console.error("Failed to sync account toggle:", err);
-            // Revert state if necessary? For now, we'll assume stability or next refresh fixes it.
-            // A robust solution would revert the local change here.
             alert("Failed to switch account. Please reload.");
         }
     };
+
+    // Delete Account Logic
+    let accountToDeleteId = null;
+    const deleteModal = document.getElementById("delete-account-modal");
+    const closeDeleteBtn = document.getElementById("close-delete-modal");
+    const cancelDeleteBtn = document.getElementById("cancel-delete-btn");
+    const confirmDeleteBtn = document.getElementById("confirm-delete-btn");
+
+    window.confirmDeleteAccount = (id, event) => {
+        event.stopPropagation(); // Prevent card click or other bubbling
+        accountToDeleteId = id;
+        deleteModal.classList.add("show");
+    };
+
+    if (closeDeleteBtn) closeDeleteBtn.onclick = () => deleteModal.classList.remove("show");
+    if (cancelDeleteBtn) cancelDeleteBtn.onclick = () => deleteModal.classList.remove("show");
+
+    if (confirmDeleteBtn) {
+        confirmDeleteBtn.onclick = async () => {
+            if (!accountToDeleteId) return;
+
+            try {
+                const response = await fetch('/api/delete_account', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: accountToDeleteId })
+                });
+
+                if (response.ok) {
+                    deleteModal.classList.remove("show");
+                    fetchData(); // Refresh data to remove account and transactions
+                } else {
+                    alert("Failed to delete account");
+                }
+            } catch (error) {
+                console.error("Error deleting account:", error);
+                alert("Error deleting account");
+            }
+        };
+    }
 });

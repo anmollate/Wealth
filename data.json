@@ -9,14 +9,6 @@
       "budget_limit": 100000.0
     },
     {
-      "id": "youtube",
-      "name": "Youtube Test",
-      "type": "Savings Account",
-      "balance": 100.0,
-      "active": false,
-      "budget_limit": 10000.0
-    },
-    {
       "id": "work",
       "name": "Work",
       "type": "Current Account",
