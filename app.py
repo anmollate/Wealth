@@ -49,11 +49,18 @@ def add_transaction():
     transaction['id'] = new_id
     data['transactions'].insert(0, transaction) # Add to top
     
-    # Update Budget if it's an expense? (Optional logic, handled by frontend usually)
-    # Update Budget logic now handled dynamically on frontend or per-account if needed.
-    # Global budget object no longer exists in data.json.
-    # if transaction['type'] == 'expense':
-    #      data['budget']['spent'] += float(transaction['amount'])
+    # Update Account Balance
+    account_id = transaction.get('account_id')
+    amount = float(transaction.get('amount'))
+    trans_type = transaction.get('type')
+
+    for acc in data['accounts']:
+        if acc['id'] == account_id:
+            if trans_type == 'income':
+                acc['balance'] += amount
+            elif trans_type == 'expense':
+                acc['balance'] -= amount
+            break
 
     save_data(data)
     return jsonify({"status": "success", "transaction": transaction})

@@ -68,7 +68,71 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // State
+
+    // Add Transaction Modal Logic
+    const transModal = document.getElementById("add-transaction-modal");
+    const closeTransBtn = document.getElementById("close-trans-modal");
+    const addTransForm = document.getElementById("add-transaction-form");
+
+    // Open Modal
+    addTransBtn.onclick = () => {
+        const activeAccount = appData.accounts.find(a => a.active);
+        if (!activeAccount) {
+            alert("Please select/activate an account first!");
+            return;
+        }
+        transModal.classList.add("show");
+    };
+
+    // Close Modal
+    if (closeTransBtn) {
+        closeTransBtn.onclick = () => {
+            transModal.classList.remove("show");
+        };
+    }
+
+    // Handle Transaction Submit
+    if (addTransForm) {
+        addTransForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const activeAccount = appData.accounts.find(a => a.active);
+            if (!activeAccount) {
+                alert("No active account selected!");
+                return;
+            }
+
+            const formData = new FormData(addTransForm);
+
+            const transactionData = {
+                title: formData.get('title'),
+                category: formData.get('category'),
+                amount: parseFloat(formData.get('amount')),
+                type: formData.get('type'),
+                date: new Date().toISOString(), // Auto-fetched system date
+                account_id: activeAccount.id
+            };
+
+            try {
+                const response = await fetch('/api/add_transaction', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(transactionData)
+                });
+
+                if (response.ok) {
+                    transModal.classList.remove("show");
+                    addTransForm.reset();
+                    fetchData(); // Refresh to show new transaction
+                } else {
+                    alert("Failed to add transaction");
+                }
+            } catch (error) {
+                console.error("Error adding transaction:", error);
+                alert("Error adding transaction");
+            }
+        });
+    }
     let appData = {
         budget: { limit: 0, spent: 0 },
         accounts: [],
@@ -363,19 +427,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Global Exposure for onClick handlers
+    // Global Exposure for onClick handlers
     window.toggleAccount = async (id) => {
+        // Optimistic UI Update
+        const targetAccount = appData.accounts.find(a => a.id === id);
+        if (!targetAccount || targetAccount.active) return; // Already active or invalid
+
+        // Update local state
+        appData.accounts.forEach(acc => {
+            acc.active = (acc.id === id);
+        });
+
+        // Re-render immediately
+        renderApp();
+
         try {
-            const response = await fetch('/api/toggle_account', {
+            // Background Sync
+            await fetch('/api/toggle_account', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id })
             });
-            if (response.ok) {
-                // Optimistic update or refetch
-                fetchData();
-            }
+            // No need to fetchData() again if successful, local state is already correct.
         } catch (err) {
-            console.error(err);
+            console.error("Failed to sync account toggle:", err);
+            // Revert state if necessary? For now, we'll assume stability or next refresh fixes it.
+            // A robust solution would revert the local change here.
+            alert("Failed to switch account. Please reload.");
         }
     };
 });
