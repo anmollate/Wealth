@@ -1,0 +1,83 @@
+{
+  "accounts": [
+    {
+      "id": "personal",
+      "name": "Personal",
+      "type": "Savings Account",
+      "balance": 152124.4,
+      "active": true,
+      "budget_limit": 10000.0
+    },
+    {
+      "id": "youtube",
+      "name": "Youtube Test",
+      "type": "Savings Account",
+      "balance": 100.0,
+      "active": false,
+      "budget_limit": 10000.0
+    },
+    {
+      "id": "work",
+      "name": "Work",
+      "type": "Current Account",
+      "balance": 5941.0,
+      "active": false,
+      "budget_limit": 10000.0
+    },
+    {
+      "id": "trading_account_4",
+      "name": "Trading Account",
+      "type": "Investment",
+      "balance": 1200000.0,
+      "active": false,
+      "budget_limit": 20000.0
+    }
+  ],
+  "transactions": [
+    {
+      "id": 1,
+      "title": "Flat Rent (Recurring)",
+      "date": "2024-12-12",
+      "amount": 1500.0,
+      "type": "expense",
+      "category": "rental",
+      "account_id": "personal"
+    },
+    {
+      "id": 2,
+      "title": "Netflix (Recurring)",
+      "date": "2024-12-08",
+      "amount": 10.0,
+      "type": "expense",
+      "category": "entertainment",
+      "account_id": "personal"
+    },
+    {
+      "id": 3,
+      "title": "Received salary",
+      "date": "2024-12-05",
+      "amount": 5549.52,
+      "type": "income",
+      "category": "salary",
+      "account_id": "work"
+    },
+    {
+      "id": 4,
+      "title": "Paid for shopping",
+      "date": "2024-12-05",
+      "amount": 157.21,
+      "type": "expense",
+      "category": "shopping",
+      "account_id": "personal"
+    },
+    {
+      "id": 5,
+      "title": "Paid for shopping",
+      "date": "2024-12-04",
+      "amount": 418.58,
+      "type": "expense",
+      "category": "shopping",
+      "account_id": "personal"
+    }
+  ]
+}
