@@ -19,6 +19,10 @@ def save_data(data):
 def index():
     return render_template('index.html')
 
+@app.route('/transactions')
+def transactions():
+    return render_template('transactions.html')
+
 @app.route('/api/data', methods=['GET'])
 def get_data():
     data = load_data()

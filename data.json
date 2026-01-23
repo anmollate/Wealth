@@ -4,16 +4,16 @@
       "id": "personal",
       "name": "Personal",
       "type": "Savings Account",
-      "balance": 140724.4,
-      "active": true,
+      "balance": 160724.4,
+      "active": false,
       "budget_limit": 100000.0
     },
     {
       "id": "work",
       "name": "Work",
       "type": "Current Account",
-      "balance": 805941.0,
-      "active": false,
+      "balance": 785941.0,
+      "active": true,
       "budget_limit": 50000.0
     },
     {
@@ -26,6 +26,24 @@
     }
   ],
   "transactions": [
+    {
+      "title": "Debited To Personal Account",
+      "category": "Other",
+      "amount": 20000,
+      "type": "expense",
+      "date": "2026-01-23T18:51:04.432Z",
+      "account_id": "work",
+      "id": 10
+    },
+    {
+      "title": "Credit",
+      "category": "Other",
+      "amount": 20000,
+      "type": "income",
+      "date": "2026-01-23T18:49:31.802Z",
+      "account_id": "personal",
+      "id": 9
+    },
     {
       "title": "Received Salary",
       "category": "Salary",

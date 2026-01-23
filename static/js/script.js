@@ -407,11 +407,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const activeClass = acc.active ? 'active' : '';
 
             const html = `
-                <div class="account-card">
+                <div class="account-card" onclick="window.location.href='/transactions?account_id=${acc.id}'" style="cursor: pointer;">
                     <div class="account-header">
                         <span class="account-name">${acc.name}</span>
                         <div class="header-actions">
-                            <div class="toggle-switch ${activeClass}" onclick="toggleAccount('${acc.id}')"></div>
+                            <div class="toggle-switch ${activeClass}" onclick="toggleAccount('${acc.id}', event)"></div>
                             <div class="delete-icon" onclick="confirmDeleteAccount('${acc.id}', event)"><i class="fa-solid fa-xmark"></i></div>
                         </div>
                     </div>
@@ -430,7 +430,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Global Exposure for onClick handlers
-    window.toggleAccount = async (id) => {
+    window.toggleAccount = async (id, event) => {
+        if (event) event.stopPropagation();
+
         // Optimistic UI Update
         const targetAccount = appData.accounts.find(a => a.id === id);
         if (!targetAccount || targetAccount.active) return; // Already active or invalid
